@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      .calculator {
+        border-radius: 10px;
+        border: 1px solid black;
+        padding: 13px;
+        width: 300px;
+        background-color: black;
+        color: white;
+      }
+      button {
+        font-size: 1.5em;
+        padding: 20px;
+        background-color: rgba(128, 128, 128, 0.404);
+        color: white;
+        cursor: pointer;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+      }
+      .display {
+        font-size: 3em;
+        text-align: right;
+        padding: 10px;
+        background-color: white;
+        color: black;
+        text-overflow: ellipsis;
+        overflow-wrap: break-word;
+        margin: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <div id="display" class="display">0</div>
+      <div class="buttons">
+        <button onclick="showNumber('%')">%</button>
+        <button onclick="showNumber('±')">±</button>
+        <button onclick="showNumber('/')">÷</button>
+        <button onclick="clearPrevious()">⌫</button>
+
+        <button onclick="showNumber(7)">7</button>
+        <button onclick="showNumber(8)">8</button>
+        <button onclick="showNumber(9)">9</button>
+        <button onclick="showNumber('*')">x</button>
+
+        <button onclick="showNumber(4)">4</button>
+        <button onclick="showNumber(5)">5</button>
+        <button onclick="showNumber(6)">6</button>
+        <button onclick="showNumber('-')">-</button>
+
+        <button onclick="showNumber(1)">1</button>
+        <button onclick="showNumber(2)">2</button>
+        <button onclick="showNumber(3)">3</button>
+        <button onclick="showNumber('+')">+</button>
+
+        <button onclick="clearDisplay()">CE</button>
+        <button onclick="showNumber(0)">0</button>
+        <button onclick="showNumber('.')">.</button>
+
+        <button onclick="calculate()">=</button>
+      </div>
+    </div>
+    <script>
+      //
+
+      function showNumber(num) {
+        if (document.getElementById("display").innerText == 0) {
+          document.getElementById("display").innerText = num;
+        } else {
+          document.getElementById("display").innerText += num;
+        }
+      }
+      function calculate() {
+        let userCalculation = document.getElementById("display").innerText;
+
+        let calculation = eval(userCalculation);
+        document.getElementById("display").innerText = calculation;
+      }
+
+      function clearDisplay() {
+        document.getElementById("display").innerText = "0";
+      }
+
+      function clearPrevious() {
+        var display = document.getElementById("display").innerText;
+        if (display.length > 1) {
+          display = display.slice(0, -1);document.getElementById("display").innerText = display;
+        }else {
+            display = display.slice(0, -1);document.getElementById("display").innerText = '0';
+        }
+      }
+
+    </script>
+  </body>
+</html>
