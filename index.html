@@ -35,6 +35,8 @@
         text-overflow: ellipsis;
         overflow-wrap: break-word;
         margin: 2px;
+        max-height: 2em; /* Limit height */
+        overflow: hidden; /* Hide overflow */
       }
     </style>
   </head>
@@ -42,8 +44,8 @@
     <div class="calculator">
       <div id="display" class="display">0</div>
       <div class="buttons">
-        <button onclick="showNumber('%')">%</button>
-        <button onclick="showNumber('±')">±</button>
+        <button onclick="percentage()">%</button>
+        <button onclick="negate()">±</button>
         <button onclick="showNumber('/')">÷</button>
         <button onclick="clearPrevious()">⌫</button>
 
@@ -70,20 +72,26 @@
       </div>
     </div>
     <script>
-      //
-
       function showNumber(num) {
-        if (document.getElementById("display").innerText == 0) {
-          document.getElementById("display").innerText = num;
+        const display = document.getElementById("display");
+        if (display.innerText === "0" && num !== ".") {
+          display.innerText = num;
         } else {
-          document.getElementById("display").innerText += num;
+          display.innerText += num;
         }
+        limitDisplay();
       }
+
       function calculate() {
         let userCalculation = document.getElementById("display").innerText;
 
-        let calculation = eval(userCalculation);
-        document.getElementById("display").innerText = calculation;
+        try {
+          let calculation = eval(userCalculation);
+          document.getElementById("display").innerText = calculation;
+        } catch (e) {
+          document.getElementById("display").innerText = "Error";
+        }
+        limitDisplay();
       }
 
       function clearDisplay() {
@@ -93,12 +101,35 @@
       function clearPrevious() {
         var display = document.getElementById("display").innerText;
         if (display.length > 1) {
-          display = display.slice(0, -1);document.getElementById("display").innerText = display;
-        }else {
-            display = display.slice(0, -1);document.getElementById("display").innerText = '0';
+          display = display.slice(0, -1);
+          document.getElementById("display").innerText = display;
+        } else {
+          document.getElementById("display").innerText = "0";
         }
       }
 
+      function percentage() {
+        let display = document.getElementById("display").innerText;
+        if (!isNaN(display) && display !== "0") {
+          display = parseFloat(display) / 100;
+          document.getElementById("display").innerText = display;
+        }
+      }
+
+      function negate() {
+        let display = document.getElementById("display").innerText;
+        if (!isNaN(display) && display !== "0") {
+          display = parseFloat(display) * -1;
+          document.getElementById("display").innerText = display;
+        }
+      }
+
+      function limitDisplay() {
+        let display = document.getElementById("display");
+        if (display.innerText.length > 11) {
+          display.innerText = display.innerText.slice(0, 11) + "...";
+        }
+      }
     </script>
   </body>
 </html>
